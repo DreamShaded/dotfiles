@@ -1,0 +1,77 @@
+#!/bin/bash
+
+hidden=/tmp/syshide.lock
+
+# Ждем, пока polybar запустится (максимум 5 секунд)
+for i in {1..10}; do
+	if pgrep -x polybar >/dev/null 2>&1; then
+		sleep 0.5  # Даем время polybar полностью загрузиться
+		break
+	fi
+	sleep 0.5
+done
+
+if [[ $(pidof stalonetray) ]]; then
+	if [[ ! -e $hidden ]]; then
+		# Скрываем stalonetray и устанавливаем состояние "скрыт" (▲)
+		xdo hide -n stalonetray 2>/dev/null || xdotool search --name stalonetray windowunmap %@ 2>/dev/null || true
+		sleep 0.2  # Небольшая задержка перед обновлением polybar
+		polybar-msg action "#systray.hook.1" 2>/dev/null || true
+		touch "$hidden"
+	else
+		polybar-msg action "#systray.hook.0" 2>/dev/null || true
+		xdo show -n stalonetray 2>/dev/null || xdotool search --name stalonetray windowmap %@ 2>/dev/null || true
+		xdo raise -n stalonetray 2>/dev/null || xdotool search --name stalonetray windowraise %@ 2>/dev/null || true
+		
+		# Позиционирование окна относительно курсора
+		sleep 0.1  # Небольшая задержка для инициализации окна
+		if command -v xdotool >/dev/null 2>&1; then
+			# Получаем позицию курсора
+			eval $(xdotool getmouselocation --shell)
+			# Получаем размеры экрана
+			SCREEN_WIDTH=$(xdotool getdisplaygeometry | awk '{print $1}')
+			# Размеры окна stalonetray (48x200)
+			WIN_WIDTH=48
+			WIN_HEIGHT=200
+			# Позиционируем слева от курсора
+			POS_X=$((X - WIN_WIDTH - 20))
+			# Убеждаемся, что окно не выходит за левый край
+			if (( POS_X < 0 )); then
+				POS_X=10
+			fi
+			# Позиционируем по вертикали ниже курсора
+			POS_Y=$((Y + 10))  # Немного ниже курсора
+			# Убеждаемся, что окно не выходит за верхний край
+			if (( POS_Y < 0 )); then
+				POS_Y=10
+			fi
+			# Позиционируем окно через i3
+			i3-msg "[class=\"stalonetray\"] move position ${POS_X} ${POS_Y}" >/dev/null 2>&1 || true
+		fi
+		
+		rm -f "$hidden"
+	fi
+else
+	stalonetray &
+	# Позиционирование при первом запуске
+	sleep 0.5
+	if command -v xdotool >/dev/null 2>&1; then
+		eval $(xdotool getmouselocation --shell)
+		SCREEN_WIDTH=$(xdotool getdisplaygeometry | awk '{print $1}')
+		WIN_WIDTH=48
+		WIN_HEIGHT=200
+		# Позиционируем слева от курсора
+		POS_X=$((X - WIN_WIDTH - 20))
+		# Убеждаемся, что окно не выходит за левый край
+		if (( POS_X < 0 )); then
+			POS_X=10
+		fi
+		# Позиционируем по вертикали ниже курсора
+		POS_Y=$((Y + 10))  # Немного ниже курсора
+		i3-msg "[class=\"stalonetray\"] move position ${POS_X} ${POS_Y}" >/dev/null 2>&1 || true
+	fi
+	# Скрываем stalonetray по умолчанию и обновляем состояние polybar
+	xdo hide -n stalonetray 2>/dev/null || xdotool search --name stalonetray windowunmap %@ 2>/dev/null || true
+	polybar-msg action "#systray.hook.1" 2>/dev/null || true
+	touch "$hidden"
+fi

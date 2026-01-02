@@ -1,0 +1,108 @@
+#!/usr/bin/env bash
+
+# Rofi-CopyQ with image previews
+# Displays CopyQ clipboard history in Rofi with image previews
+
+tmp_dir="/tmp/rofi-copyq-images"
+rm -rf "$tmp_dir"
+mkdir -p "$tmp_dir"
+
+# Get clipboard size
+size=$(copyq eval "tab('&clipboard'); size()" 2>/dev/null || echo "0")
+
+if [ "$size" -eq 0 ]; then
+    exit 0
+fi
+
+# Create index mapping file
+index_map=$(mktemp)
+
+# Build menu items with image previews
+for i in $(seq 0 $((size - 1))); do
+    # Get text representation first
+    text=$(copyq eval "tab('&clipboard'); read($i, 'text/plain')" 2>/dev/null | head -100 | sed 's/|/ /g' | tr '\n' ' ' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+    
+    # Try to read PNG image directly (without checking format first)
+    img_file="$tmp_dir/${i}.png"
+    copyq eval "tab('&clipboard'); select($i);" >/dev/null 2>&1
+    sleep 0.1  # Delay to ensure selection
+    copyq clipboard image/png > "$img_file" 2>/dev/null
+    
+    # Check if PNG image was successfully saved
+    if [ -f "$img_file" ] && [ -s "$img_file" ]; then
+        file_type=$(file -b "$img_file" 2>/dev/null)
+        if echo "$file_type" | grep -qiE "png|jpeg|image"; then
+            # Image found, use appropriate text
+            if [ -z "$text" ]; then
+                text="📷 Image"
+            fi
+            # Truncate long text
+            if [ ${#text} -gt 80 ]; then
+                text="${text:0:80}..."
+            fi
+            # Save mapping
+            echo "$text|$i" >> "$index_map"
+            echo -e "${text}\0icon\x1f${img_file}"
+            continue
+        fi
+    fi
+    rm -f "$img_file"
+    
+    # Try JPEG image
+    img_file="$tmp_dir/${i}.jpg"
+    copyq clipboard image/jpeg > "$img_file" 2>/dev/null
+    
+    # Check if JPEG image was successfully saved
+    if [ -f "$img_file" ] && [ -s "$img_file" ]; then
+        file_type=$(file -b "$img_file" 2>/dev/null)
+        if echo "$file_type" | grep -qiE "png|jpeg|image"; then
+            # Image found, use appropriate text
+            if [ -z "$text" ]; then
+                text="📷 Image"
+            fi
+            # Truncate long text
+            if [ ${#text} -gt 80 ]; then
+                text="${text:0:80}..."
+            fi
+            # Save mapping
+            echo "$text|$i" >> "$index_map"
+            echo -e "${text}\0icon\x1f${img_file}"
+            continue
+        fi
+    fi
+    rm -f "$img_file"
+    
+    # No image found - use text
+    if [ -z "$text" ]; then
+        text="[Item $i]"
+    fi
+    
+    # Truncate long text
+    if [ ${#text} -gt 80 ]; then
+        text="${text:0:80}..."
+    fi
+    
+    # Save mapping
+    echo "$text|$i" >> "$index_map"
+    
+    # Text item without image
+    echo -e "${text}"
+done | rofi -dmenu -show-icons -i -p "📋" 2>/dev/null | while IFS=$'\n' read -r selected; do
+    if [ -n "$selected" ]; then
+        # Extract text without icon part
+        text_only=$(echo "$selected" | sed 's/\x0icon.*//')
+        
+        # Find index from index_map
+        index=$(grep -F "$text_only" "$index_map" | head -1 | cut -d'|' -f2)
+        
+        if [ -n "$index" ] && [ "$index" -ge 0 ] 2>/dev/null && [ "$index" -lt "$size" ]; then
+            copyq eval "tab('&clipboard'); select($index);" 2>/dev/null
+            sleep 0.1
+            copyq paste 2>/dev/null
+        fi
+    fi
+done
+
+# Cleanup
+rm -f "$index_map"
+

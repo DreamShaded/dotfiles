@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Cursor
+Comment=Cursor Editor
+Exec=/home/r/common/bin/cursor/cursor.AppImage
+Icon=cursor
+Terminal=false
+Type=Application
+Categories=Development;
+MimeType=text/plain;inode/directory;
+StartupNotify=true
+

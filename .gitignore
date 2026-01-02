@@ -1,0 +1,5 @@
+garuda-settings/
+ssh/
+stow-backups/
+.bash_history
+.zhistory

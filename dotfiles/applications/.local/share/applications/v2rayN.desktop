@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=v2rayN
+Comment=v2rayN GUI Client
+Exec=/home/r/common/bin/v2rayN/v2rayN
+Icon=/home/r/common/bin/v2rayN/v2rayN.png
+Terminal=false
+Type=Application
+Categories=Network;X-Internet;
+StartupNotify=true
+
