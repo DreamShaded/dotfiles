@@ -247,7 +247,7 @@ bindsym $super+r mode "resize"
 mode "open" {
   bindsym t exec Telegram; mode "default"
   bindsym a exec anki; mode "default"
-  bindsym c exec cursor; mode "default"
+  bindsym c exec /home/r/common/bin/cursor/cursor.AppImage; mode "default"
   bindsym Shift+c exec codium; mode "default"
   bindsym f exec thunar; mode "default"
   bindsym z exec zoom; mode "default"
@@ -256,7 +256,7 @@ mode "open" {
   bindsym q exec steam; mode "default"
   bindsym d exec discord; mode "default"
   bindsym g exec google-chrome-stable; mode "default"
-  bindsym o exec obsidian.AppImage; mode "default"
+  bindsym o exec obsidian; mode "default"
 
   bindsym Shift+z exec zeal; mode "default"
   bindsym Shift+g exec google-chrome --remote-debugging-port=9222 --user-data-dir=debug; mode "default"
