@@ -271,6 +271,11 @@ bindsym $super+u border none
 bindsym $super+y border pixel 1
 bindsym $super+n border normal
 
+# Режим отключения хоткеев
+bindsym F12 mode "unbind"; exec notify-flash "i3" "mode unbind"
+mode "unbind" {
+  bindsym F12 mode "default"; exec notify-flash "i3" "normal mode"
+}
 
 # panel
 # Using polybar instead of i3bar

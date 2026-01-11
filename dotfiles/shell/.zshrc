@@ -252,3 +252,7 @@ if [[ -d "$HOME/.r.snippets" ]]; then
     [[ -r "$file" ]] && . "$file"
   done
 fi
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/home/r/.lmstudio/bin"
+# End of LM Studio CLI section
+
