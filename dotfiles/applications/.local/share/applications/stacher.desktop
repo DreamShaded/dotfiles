@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Stacher
+Comment=Download manager application
+GenericName=Download Manager
+Exec=/home/r/common/bin/stacher/Stacher7-x86_64.AppImage %U
+Icon=stacher
+Terminal=false
+Type=Application
+Categories=Network;Utility;
+Keywords=download;manager;downloader;
+StartupWMClass=stacher

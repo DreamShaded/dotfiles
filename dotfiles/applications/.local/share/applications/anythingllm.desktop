@@ -1,0 +1,7 @@
+[Desktop Entry]
+StartupWMClass=anythingllm-desktop
+Type=Application
+Name=AnythingLLM Desktop
+Exec=/home/r/AnythingLLMDesktop.AppImage
+Icon=/home/r/.config/anythingllm-desktop/storage/icon.png
+Categories=Utility;

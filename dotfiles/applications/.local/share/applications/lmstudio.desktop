@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=LM Studio
+Comment=Run local LLMs on your computer
+GenericName=LLM Interface
+Exec=/home/r/common/llm/lmstudio/LMStudio.AppImage %U
+Icon=lmstudio
+Terminal=false
+Type=Application
+Categories=Development;Utility;Science;
+Keywords=llm;ai;machine learning;gpt;llama;
+StartupWMClass=lm-studio
+MimeType=application/x-gguf;
