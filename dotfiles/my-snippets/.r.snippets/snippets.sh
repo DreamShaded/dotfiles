@@ -37,7 +37,7 @@ fs() {
 
 work() {
 	local dir
-	dir=$(ls /home/r/common/work | fzf +m) && cd /home/r/common/work/"$dir"
+	dir=$(ls /home/r/common/code | fzf +m) && cd /home/r/common/code/"$dir"
 
 	if [ -f .nvmrc ]; then
 		use-nvm
@@ -51,16 +51,6 @@ work() {
 learn() {
 	local dir
 	dir=$(ls /home/r/common/learn | fzf +m) && cd /home/r/common/learn/"$dir"
-}
-
-itmo() {
-	local dir
-	dir=$(ls /home/r/common/itmo | fzf +m) && cd /home/r/common/itmo/"$dir"
-}
-
-speeches() {
-	local dir
-	dir=$(ls /home/r/common/speeches | fzf +m) && cd /home/r/common/speeches/"$dir"
 }
 
 function cd_() {
@@ -84,7 +74,8 @@ setNpmMirror() {
   echo registry="$current" >> /home/r/.yarnrc
 }
 
-code() {
-    nohup cursor.AppImage "$@" >/dev/null 2>&1 < /dev/null & 
-    disown
-}
+# code() {
+#     Как образец использования nohup
+#     nohup cursor.AppImage "$@" >/dev/null 2>&1 < /dev/null & 
+#     disown
+# }
