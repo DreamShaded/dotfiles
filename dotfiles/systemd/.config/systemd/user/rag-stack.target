@@ -1,0 +1,7 @@
+[Unit]
+Description=RAG Knowledge Base Stack
+Wants=chromadb.service open-webui.service rag-watchdog.service
+After=chromadb.service
+
+[Install]
+WantedBy=default.target

@@ -4,7 +4,6 @@ if [ -d "$HOME/.local/bin" ]; then
     export PATH=$HOME/.local/bin:$PATH
 fi
 
-eval "$(starship init zsh)"
 function set_win_title(){
     echo -ne "\033]0; $USER@$HOST:${PWD/$HOME/~} \007"
 }
@@ -246,13 +245,27 @@ export MCFLY_INTERFACE_VIEW=BOTTOM
 export MCFLY_RESULTS_SORT=LAST_RUN
 eval "$(mcfly init zsh)"
 
+autoload -Uz vcs_info
+precmd() { vcs_info }
+setopt prompt_subst
+
+zstyle ':vcs_info:git:*' formats ' %F{magenta} %b%f'
+zstyle ':vcs_info:git:*' actionformats ' %F{magenta} %b%f %F{red}(%a)%f'
+zstyle ':vcs_info:*' enable git
+
+PROMPT='%F{50}%n%f%F{50}@%f%F{50}%m%f:%F{47}%~%f${vcs_info_msg_0_}
+%F{50}╰─%f '
+
 # Load personal snippets (aliases/functions/env) if present
 if [[ -d "$HOME/.r.snippets" ]]; then
   for file in "$HOME/.r.snippets"/*.sh(N); do
     [[ -r "$file" ]] && . "$file"
   done
 fi
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/home/r/.lmstudio/bin"
-# End of LM Studio CLI section
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+[[ -s "/home/r/.gvm/scripts/gvm" ]] && source "/home/r/.gvm/scripts/gvm"
+[[ -s /home/r/.rsvm/rsvm.sh ]] && . /home/r/.rsvm/rsvm.sh # This loads RSVM

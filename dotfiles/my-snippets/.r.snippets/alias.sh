@@ -30,4 +30,6 @@ alias findDir='sudo find / -type d -name'
 alias reloadWaybar='pkill waybar && waybar'
 
 alias monikFullHD='xrandr --output eDP-2 --mode 1920x1080'
-alias kvmMonikRight='xrandr --output HDMI-1-0 --mode 1920x1080 --right-of eDP-2 --output DP-1-0 --mode 1920x1080 --right-of HDMI-1-0'
+alias kvmMonikRight='xrandr --output DP-1-0 --mode 1920x1080 --right-of eDP-1 --output DP-1-2 --mode 1920x1080 --right-of DP-1-0'
+
+alias sail='./vendor/bin/sail' 

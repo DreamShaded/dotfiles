@@ -1,0 +1,14 @@
+[Unit]
+Description=RAG File Watcher and Auto-Indexer
+After=chromadb.service
+
+[Service]
+Type=simple
+WorkingDirectory=/home/r/common/llm/local-brain/indexer
+ExecStart=/home/r/common/llm/local-brain/venv/bin/python -u /home/r/common/llm/local-brain/indexer/watchdog_daemon.py
+Restart=on-failure
+RestartSec=10
+Environment="PYTHONUNBUFFERED=1"
+
+[Install]
+WantedBy=default.target

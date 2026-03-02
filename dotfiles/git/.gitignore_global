@@ -660,3 +660,8 @@ go.work
 
 .cursorrules
 .cursor/
+.claude/
+CLAUDE.md
+plan/
+plans/
+.agents/

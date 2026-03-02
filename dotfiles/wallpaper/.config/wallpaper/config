@@ -1,0 +1,9 @@
+# Маппинг обоев по мониторам
+# Формат: ИМЯ_МОНИТОРА=путь/к/обоям
+# DEFAULT — обои для мониторов, не указанных явно
+
+DEFAULT=~/.config/i3/wallpaper.png
+# HDMI-1=~/Pictures/Wallpapers/hdmi.jpg
+# eDP-1=~/Pictures/Wallpapers/laptop.jpg
+# eDP-2=~/Pictures/Wallpapers/laptop.jpg
+# DP-1-0=~/Pictures/Wallpapers/dp.jpg

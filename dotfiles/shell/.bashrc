@@ -1,23 +1,4 @@
-# If not running interactively, don't do anything
-[[ $- != *i* ]] && return
-
-# Load starship prompt if starship is installed
-if [ -x /usr/bin/starship ]; then
-	__main() {
-		local major="${BASH_VERSINFO[0]}"
-		local minor="${BASH_VERSINFO[1]}"
-
-		if ((major > 4)) || { ((major == 4)) && ((minor >= 1)); }; then
-			source <("/usr/bin/starship" init bash --print-full-init)
-		else
-			source /dev/stdin <<<"$("/usr/bin/starship" init bash --print-full-init)"
-		fi
-	}
-	__main
-	unset -f __main
-fi
-
-## Useful aliases
+# Useful aliases
 ### Replace ls with eza
 if [[ -x /usr/bin/eza ]]; then
   alias ls='eza -al --color=always --group-directories-first --icons'     # preferred listing
@@ -32,15 +13,11 @@ if [[ -x /usr/bin/bat ]]; then
   alias cat='bat --style header --style snip --style changes --style header'
 fi
 
-[ ! -x /usr/bin/yay ] && [ -x /usr/bin/paru ] && alias yay='paru'
-
 # Common use
 alias fixpacman="sudo rm /var/lib/pacman/db.lck"
 alias wget='wget -c '
-alias rmpkg="sudo pacman -Rdd"
 alias psmem='ps auxf | sort -nr -k 4'
 alias psmem10='ps auxf | sort -nr -k 4 | head -10'
-alias upd='/usr/bin/garuda-update'
 
 alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
@@ -90,3 +67,5 @@ fastfetch -l garuda
 export PATH="$PATH:/home/r/.lmstudio/bin"
 # End of LM Studio CLI section
 
+
+[[ -s "/home/r/.gvm/scripts/gvm" ]] && source "/home/r/.gvm/scripts/gvm"

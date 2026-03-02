@@ -2,6 +2,6 @@
 Name=Cursor
 Type=Application
 Terminal=false
-Exec=cursor --password-store=gnome-libsecret --open-url %u
+Exec=cursor --open-url %u  --password-store="gnome-libsecret"
 MimeType=x-scheme-handler/cursor;
 Categories=Development;IDE;
