@@ -1,6 +1,6 @@
 [Unit]
 Description=RAG File Watcher and Auto-Indexer
-After=chromadb.service
+After=chromadb.service embedding-server.service
 
 [Service]
 Type=simple
@@ -8,6 +8,8 @@ WorkingDirectory=/home/r/common/llm/local-brain/indexer
 ExecStart=/home/r/common/llm/local-brain/venv/bin/python -u /home/r/common/llm/local-brain/indexer/watchdog_daemon.py
 Restart=on-failure
 RestartSec=10
+StandardOutput=append:/home/r/common/llm/local-brain/logs/indexer/indexer-stdout.log
+StandardError=append:/home/r/common/llm/local-brain/logs/indexer/indexer-error.log
 Environment="PYTHONUNBUFFERED=1"
 
 [Install]

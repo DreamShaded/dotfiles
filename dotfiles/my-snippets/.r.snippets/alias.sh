@@ -18,8 +18,6 @@ alias untar='tar -zxvf '
 # alias setJava='sudo update-alternatives --config java && source ~/.bashrc'
 alias setJava='sudo archlinux-java set'
 
-alias deleteAllDockers='docker kill $(docker ps -q) && docker kill $(docker ps -q) && docker rmi $(docker images -q)'
-
 alias pacman-add='sudo pacman -S --needed'
 alias pacman-upgrade='sudo pacman -Syu'
 alias pacman-remove='sudo pacman -Rns'
@@ -30,6 +28,6 @@ alias findDir='sudo find / -type d -name'
 alias reloadWaybar='pkill waybar && waybar'
 
 alias monikFullHD='xrandr --output eDP-2 --mode 1920x1080'
-alias kvmMonikRight='xrandr --output DP-1-0 --mode 1920x1080 --right-of eDP-1 --output DP-1-2 --mode 1920x1080 --right-of DP-1-0'
+alias kvmMonikRight='xrandr --auto && xrandr --output DP-1-2 --auto --primary --output DP-1-0 --auto --right-of DP-1-2 --output eDP-1 --auto --right-of DP-1-0'
 
 alias sail='./vendor/bin/sail' 

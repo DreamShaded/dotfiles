@@ -72,6 +72,9 @@ set $ws8 "8"
 set $ws9 "srv"
 set $ws10 "why"
 
+# ViewSonic (DP-1-2) — основной монитор для workspace code
+workspace $ws1 output DP-1-2
+
 workspace_auto_back_and_forth yes
 
 # Переключение
@@ -140,7 +143,7 @@ bindsym $mod+r mode "resize"
 mode "open" {
         bindsym t exec Telegram; mode "default"
         bindsym a exec anki; mode "default"
-        bindsym c exec /home/r/common/bin/cursor/cursor.AppImage; mode "default"
+        bindsym c exec cursor; mode "default"
         bindsym Shift+c exec codium; mode "default"
         bindsym f exec thunar; mode "default"
         bindsym z exec zoom; mode "default"
@@ -267,10 +270,8 @@ exec --no-startup-id redshift-gtk
 exec --no-startup-id dex -a -s /etc/xdg/autostart/:~/.config/autostart/
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
-# Отключить dpms/blank/screen saver
-exec --no-startup-id xset -dpms
-exec --no-startup-id xset s off
-exec --no-startup-id xset s noblank
+# Отключить dpms/blank/screen saver (одним вызовом + обнулить таймеры dpms на случай реактивации)
+exec --no-startup-id xset s off s noblank -dpms dpms 0 0 0
 
 # Полоса громкости (xob)
 exec_always mkfifo /tmp/xobpipe && tail -f /tmp/xobpipe | xob -t 2170 & disown

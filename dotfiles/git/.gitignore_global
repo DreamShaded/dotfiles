@@ -665,3 +665,9 @@ CLAUDE.md
 plan/
 plans/
 .agents/
+.claude
+AGENTS.md
+.playwright/
+.playwright-mcp/
+docs/
+PRD.md

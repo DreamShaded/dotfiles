@@ -7,6 +7,8 @@ ExecStart=/home/r/common/llm/local-brain/venv/bin/chroma run \
     --path /home/r/common/llm/local-brain/chromadb --host 127.0.0.1 --port 8000
 Restart=on-failure
 RestartSec=5
+StandardOutput=append:/home/r/common/llm/local-brain/logs/chromadb/chromadb.log
+StandardError=append:/home/r/common/llm/local-brain/logs/chromadb/chromadb-error.log
 
 [Install]
 WantedBy=default.target

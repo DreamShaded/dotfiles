@@ -1,0 +1,6 @@
+[Unit]
+Description=Ротация логов RAG-стека
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/logrotate --state /home/r/common/llm/local-brain/logs/.logrotate.state /home/r/common/llm/local-brain/config/logrotate.conf

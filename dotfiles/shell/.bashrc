@@ -69,3 +69,4 @@ export PATH="$PATH:/home/r/.lmstudio/bin"
 
 
 [[ -s "/home/r/.gvm/scripts/gvm" ]] && source "/home/r/.gvm/scripts/gvm"
+source <(tdl completion bash)

@@ -1,0 +1,9 @@
+[Unit]
+Description=Периодический экспорт логов системных сервисов
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=5min
+
+[Install]
+WantedBy=timers.target

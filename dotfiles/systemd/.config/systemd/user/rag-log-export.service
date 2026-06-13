@@ -1,0 +1,6 @@
+[Unit]
+Description=Экспорт логов системных сервисов (Ollama, SearXNG) в файлы
+
+[Service]
+Type=oneshot
+ExecStart=/home/r/common/llm/local-brain/bin/export-journal-logs.sh

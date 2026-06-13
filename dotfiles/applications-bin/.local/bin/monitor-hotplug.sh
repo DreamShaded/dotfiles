@@ -34,7 +34,19 @@ while read -r line; do
         elapsed=$((now - last_run))
         if [[ $elapsed -ge $COOLDOWN ]]; then
             last_run=$now
-            echo "Обнаружено изменение мониторов, обновляю обои..." >&2
+            echo "Обнаружено изменение мониторов, обновляю конфиг..." >&2
+            # Переподключение монитора может реактивировать DPMS — сразу отключаем
+            xset s off s noblank -dpms dpms 0 0 0
+            # xrandr --auto нужен чтобы NVIDIA подхватил мониторы после переподключения
+            xrandr --auto
+            # Если внешние мониторы подключены — выстраиваем: ViewSonic(DP-1-2) | Dell(DP-1-0) | eDP-1
+            dp10=$(xrandr --query | grep "^DP-1-0 connected")
+            dp12=$(xrandr --query | grep "^DP-1-2 connected")
+            if [[ -n "$dp10" && -n "$dp12" ]]; then
+                xrandr --output DP-1-2 --auto --primary \
+                       --output DP-1-0 --auto --right-of DP-1-2 \
+                       --output eDP-1  --auto --right-of DP-1-0
+            fi
             "$HOME/.local/bin/set-wallpaper.sh"
         fi
     fi

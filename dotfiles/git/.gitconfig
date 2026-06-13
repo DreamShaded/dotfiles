@@ -30,6 +30,7 @@
   autocrlf = input
 	fileMode = false
 	excludesfile = /home/r/.gitignore_global
+	editor = vim
 
 [push]
   # осторожно с этим. Знай, куда пушишь.
@@ -78,3 +79,14 @@
   unmerged = magenta bold reverse
   untracked = red
   updated = green bold
+[lfs]
+	concurrenttransfers = 3
+[lfs "customtransfer.xet"]
+	path = git-xet
+	args = transfer
+	concurrent = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

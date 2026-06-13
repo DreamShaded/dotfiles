@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=BrowserOS
+Comment=BrowserOS Application
+Exec=/home/r/common/bin/browseros/BrowserOS.AppImage
+Type=Application
+Categories=Network;WebBrowser;
+StartupWMClass=BrowserOS
+Terminal=false

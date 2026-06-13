@@ -7,12 +7,11 @@ Type=simple
 ExecStart=/home/r/common/llm/local-brain/open-webui-venv/bin/open-webui serve
 Restart=on-failure
 RestartSec=5
+StandardOutput=append:/home/r/common/llm/local-brain/logs/open-webui/open-webui.log
+StandardError=append:/home/r/common/llm/local-brain/logs/open-webui/open-webui-error.log
 Environment="HOST=0.0.0.0"
 Environment="PORT=8080"
 Environment="OLLAMA_BASE_URL=http://localhost:11434"
-Environment="VECTOR_DB=chroma"
-Environment="CHROMA_HTTP_HOST=localhost"
-Environment="CHROMA_HTTP_PORT=8000"
 Environment="ENABLE_RAG_WEB_SEARCH=True"
 Environment="RAG_WEB_SEARCH_ENGINE=searxng"
 Environment="SEARXNG_QUERY_URL=http://localhost:8888/search?q=<query>&format=json"

@@ -1,7 +1,0 @@
-[Desktop Entry]
-Name=Cursor
-Type=Application
-Terminal=false
-Exec=cursor --password-store=gnome-libsecret --open-url %u
-MimeType=x-scheme-handler/cursor;
-Categories=Development;IDE;

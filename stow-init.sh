@@ -148,6 +148,7 @@ targets="$(
     | awk '
         match($0, / existing target ([^ ]+) since/, m) { print m[1] }
         match($0, /existing target is not owned by stow: (.*)$/, m) { print m[1] }
+        match($0, /existing target is stowed to a different package: ([^ ]+)/, m) { print m[1] }
       ' \
     | sed '/^$/d' \
     | sort -u
