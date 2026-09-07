@@ -3,3 +3,4 @@ ssh/
 stow-backups/
 .bash_history
 .zhistory
+mimeinfo.cache

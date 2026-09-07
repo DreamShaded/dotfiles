@@ -1,41 +1,57 @@
 # applications-desktop
 
-Пользовательские `.desktop` файлы для приложений, установленных вручную (AppImage, бинарники из `~/common/bin` и т.д.).
+Пользовательские `.desktop` файлы: для приложений, установленных мимо пакетного
+менеджера (AppImage, бинарники), и оверрайды системных ярлыков.
+
+Раньше рядом жил дублирующий пакет `applications` с теми же `v2rayN`/`stacher` —
+одновременно раскатать оба было нельзя (конфликт симлинков), поэтому он влит сюда.
 
 ## Основные опции
 
-- **Где лежат `.desktop` файлы**: `~/.local/share/applications/` (XDG user applications directory)
-- **Что здесь**: 
-  - `.desktop` файлы для приложений, которые не поставляются с `.desktop` файлами (например, AppImage)
-- **Заметки**: после добавления/изменения `.desktop` файла может потребоваться перезапуск launcher'а (rofi/wofi/nwg-drawer) или команда `update-desktop-database ~/.local/share/applications/`
+- **Куда раскатывается**: `~/.local/share/applications/` (XDG user applications directory)
+- **Приоритет**: этот каталог перекрывает `/usr/share/applications/` по имени файла,
+  так что переустановка пакета оверрайд не затирает — но и обновления апстримного
+  ярлыка сюда не приезжают, синхронизировать руками.
+- **Заметки**: после добавления/изменения `.desktop` файла может потребоваться
+  `update-desktop-database ~/.local/share/applications/` и перезапуск launcher'а
+  (rofi/wofi/nwg-drawer).
 
 ## Файлы в пакете
 
-### Desktop файлы
-- `.local/share/applications/cursor.desktop` - Cursor Editor (AppImage)
-- `.local/share/applications/v2rayN.desktop` - v2rayN GUI Client
+- `.local/share/applications/browseros.desktop` — BrowserOS
+- `.local/share/applications/com.anthropic.Claude.desktop` — **оверрайд** системного
+  ярлыка Claude Desktop: добавляет `--password-store=gnome-libsecret`, без которого
+  под i3 Chromium не опознаёт DE, `safeStorage` уходит в `backend=basic_text`
+  и сессия не переживает перезапуск. Подробнее — `instructions.md`, раздел
+  «Claude Desktop (под i3)».
+- `.local/share/applications/stacher.desktop` — Stacher (загрузчик)
+- `.local/share/applications/v2rayN.desktop` — v2rayN GUI Client
+- `.local/share/applications/mimeapps.list` — пустой; фактические ассоциации
+  живут в `~/.config/mimeapps.list`, который пока не под stow
+
+`mimeinfo.cache` в пакете не хранится (генерируется `update-desktop-database`,
+добавлен в `.gitignore`).
 
 ## Примеры
 
-- **Добавить новое приложение**: создайте `.desktop` файл в этом пакете и примените stow
 - **Dry-run (без изменений)**:
-  - `stow -d my-settings -t "$HOME" -n -v applications-desktop`
+  - `stow -d dotfiles -t "$HOME" -n -v applications-desktop`
 - **Применить (создать/обновить симлинки)**:
-  - `stow -d my-settings -t "$HOME" -v applications-desktop`
+  - `stow -d dotfiles -t "$HOME" --no-folding -R applications-desktop`
 - **Удалить симлинки пакета**:
-  - `stow -d my-settings -t "$HOME" -D applications-desktop`
+  - `stow -d dotfiles -t "$HOME" -D applications-desktop`
+- **Или через обёртку репозитория**:
+  - `./stow-init.sh --apply applications-desktop`
+
+`--no-folding` нужен потому, что в `~/.local/share/applications/` лежат и чужие
+файлы (ярлыки, созданные самими приложениями) — каталог целиком в симлинк
+превращать нельзя.
 
 ## См. также
 
-- Скрипты из `~/.local/bin/` вынесены в отдельный пакет: `applications-bin`
+- Скрипты из `~/.local/bin/` — в пакете `applications-bin`
+- Системные `.desktop` файлы — `/usr/share/applications/`
 
-## Альтернативные пакеты
+## Регистрация схемы URL
 
-- Системные `.desktop` файлы обычно лежат в `/usr/share/applications/`
-- Для приложений из пакетного менеджера обычно `.desktop` файлы создаются автоматически
-
-### В контексте пакета
-
-`stow-init.sh --apply applications-desktop --force`
-`update-desktop-database ~/.local/share/applications`
-`xdg-mime default cursor.desktop x-scheme-handler/cursor`
+`xdg-mime default com.anthropic.Claude.desktop x-scheme-handler/claude`

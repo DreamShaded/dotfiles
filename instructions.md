@@ -190,7 +190,7 @@ Session) и в биндах i3 — иначе запуск из i3 пойдёт 
 
 ### Юнит `i3-session.target`
 
-В репозитории его нет, на новой машине создать вручную —
+Лежит в stow-пакете `systemd`, раскатывается симлинком в
 `~/.config/systemd/user/i3-session.target`:
 
 ```ini
@@ -200,6 +200,14 @@ Documentation=man:systemd.special(7)
 BindsTo=graphical-session.target
 Wants=graphical-session-pre.target
 After=graphical-session-pre.target
+```
+
+Раскатать на новой машине (каталог `~/.config/systemd/user/` содержит и чужие
+файлы, поэтому `--no-folding`), затем перечитать юниты:
+
+```bash
+stow -d dotfiles -t "$HOME" --no-folding -R systemd
+systemctl --user daemon-reload
 ```
 
 ### Диагностика (если на второй машине не работает)
