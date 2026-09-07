@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /home/r/.local/bin/hermes -p wife "$@"

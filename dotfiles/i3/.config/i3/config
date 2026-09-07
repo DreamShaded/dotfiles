@@ -16,6 +16,9 @@ floating_modifier $mod
 # ---------------------------------------------------------------------
 bindsym $mod+Return exec $term
 
+exec --no-startup-id dbus-update-activation-environment --systemd --all
+exec --no-startup-id systemctl --user start i3-session.target
+
 # Rofi (режим combi: window + drun + run)
 bindsym Ctrl+space exec "rofi -show combi -modi window,drun,run,combi -combi-modi window,drun,run"
 bindsym $mod+d exec "rofi -show combi -modi window,drun,run,combi -combi-modi window,drun,run"
@@ -144,10 +147,12 @@ mode "open" {
         bindsym t exec Telegram; mode "default"
         bindsym a exec anki; mode "default"
         bindsym c exec cursor; mode "default"
-        bindsym Shift+c exec codium; mode "default"
+        # bindsym Shift+c exec codium; mode "default"   # codium не установлен
+        bindsym l exec claude-desktop --password-store=gnome-libsecret; mode "default"
+        bindsym Shift+l exec claude-desktop --password-store=gnome-libsecret "claude://code/new?source=desktop_action"; mode "default"
         bindsym f exec thunar; mode "default"
         bindsym z exec zoom; mode "default"
-        bindsym v exec virt-manager; mode "default"
+        # bindsym v exec virt-manager; mode "default"   # virt-manager не установлен
 
         bindsym q exec steam; mode "default"
         bindsym d exec discord; mode "default"
@@ -157,10 +162,10 @@ mode "open" {
         bindsym Shift+z exec zeal; mode "default"
         bindsym Shift+g exec google-chrome-stable --remote-debugging-port=9222 --user-data-dir=debug; mode "default"
 
-        bindsym Return mode "default"; exec notify-flash "i3" "normal mode"
-        bindsym Escape mode "default"; exec notify-flash "i3" "normal mode"
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
 }
-bindsym $mod+o mode "open"; exec notify-flash "i3" "mode open"
+bindsym $mod+o mode "open"
 
 # ---------------------------------------------------------------------
 # Жесты (мышь / swipe)
@@ -188,7 +193,6 @@ bindsym Shift+Print exec flameshot full -p ~/Pictures/Screenshots/
 bindsym Ctrl+Print exec flameshot full -c
 
 bindsym $mod+Shift+v exec copyq toggle
-bindsym $mod+Shift+i exec ~/.local/bin/shcts  # открыть шпаргалку
 
 bindsym $mod+Shift+p exec gnome-calculator
 #bindsym $mod+p exec ~/.scripts/dmshot
@@ -217,9 +221,9 @@ mode "$mode_system" {
 # ---------------------------------------------------------------------
 # Режим отключения хоткеев
 # ---------------------------------------------------------------------
-bindsym F12 mode "unbind"; exec notify-flash "i3" "mode unbind"
+bindsym F12 mode "unbind"
 mode "unbind" {
-        bindsym F12 mode "default"; exec notify-flash "i3" "normal mode"
+        bindsym F12 mode "default"
 }
 
 # ---------------------------------------------------------------------
